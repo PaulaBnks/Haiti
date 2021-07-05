@@ -1,0 +1,89 @@
+<apex:page showHeader="false" sidebar="false" controller="GaugeController" title="Total Number of Students" lightningStylesheets="true">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="x-ua-compatible" content="ie=edge" />
+      <title>Total Students Served</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+ 
+       <!-- Import the Design System style sheet -->
+       <apex:slds />
+ 
+
+	<style>
+          .title {
+        font-weight:bold ;
+        font:15px Helvetica; 
+        color:black; 
+        text-align:center;
+        vertical-align: middle;
+        text-decoration: underline;} 
+        
+  		.widget-title {
+       		font-size: 50px;
+       		line-height: 46px;
+       		font-family: Roboto, sans-serif;
+       		font-weight: 400;
+       		margin-bottom: 24px;
+       		display: block;
+       		box-sizing: border-box;
+       		color: #FFFFFF
+    	}
+    
+		.widget-text {
+       		font-size: 17px;
+       		line-height: 26px;
+       		font-family: Roboto, sans-serif;
+    	}
+        .title_text {
+           font-size: 20px;
+       		line-height: 26px;
+       		font-family: Roboto, sans-serif;
+            text-align: left;
+            padding:20px;
+        }
+        
+        /* Color for the title bar */
+        
+       .apexp  .bPageBlock .pbBody .pbFooter .brandSecondaryBrd .apexDefaultPageBlock .secondaryPalette
+        {
+            /* Color for the pageblock background */
+            background-color:#FFFFFF;
+        }
+    </style>      
+    </head>
+    <body style="background-color:#FFFFFF">
+
+   <apex:pageBlock>
+       <apex:pageBlockSection>
+   <apex:pageBlockSectionItem labelStyle="align:center">           
+    <apex:chart height="150" width="250" animate="true" legend="true" data="{!data}" theme="Salesforce">
+        <apex:axis type="Gauge" position="gauge" margin="-10" title="Total Students" minimum="0" maximum="20"  steps="5"/>
+        <apex:gaugeSeries dataField="size" highlight="true" tips="true" donut="50" colorSet="#78c953,#ddd"  >
+            <apex:chartLabel display="over"/>
+        </apex:gaugeSeries>
+    </apex:chart>
+   </apex:pageBlockSectionItem>  
+       </apex:pageBlockSection>
+
+  
+   <apex:pageBlockSection>
+   <apex:pageBlockSectionItem labelStyle="align:center">
+    <apex:chart height="250" width="350" data="{!data}">
+        <apex:axis type="Numeric" position="left" fields="data" title="Years of experience"/>   
+        <apex:axis type="Category" position="bottom" fields="name" title="Member"/>           
+        <apex:barSeries orientation="vertical" axis="left" xField="name" yField="data"/>
+    </apex:chart>
+</apex:pageBlockSectionItem>
+</apex:pageBlockSection>
+   
+ 
+ </apex:pageBlock>  
+     
+
+
+        
+    </body>
+  </html>
+    
+</apex:page>

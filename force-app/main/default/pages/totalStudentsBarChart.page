@@ -1,0 +1,51 @@
+<apex:page  controller="barChartController">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="x-ua-compatible" content="ie=edge" />
+      <title>Total Number of Students Infographic Chart </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+ 
+       <!-- Import the Design System style sheet -->
+       <apex:slds />
+        <style>
+         body {
+        background: #fff;
+        }
+        div {
+        background: #fff;
+        margin-left: 10%;
+        }
+        .title {
+         font-size: 20px;
+         font-weight: 500;
+         margin-left: 10%;
+         padding: 20px;
+        }
+        </style>
+       
+        </head>
+        <body>
+     
+     <!--apex:pageblock title="Fundraising For The Residential School - Phase One" -->
+     <div>
+      <div class="title"> <h2>Total Number of Students Infographic Chart</h2> </div>
+       <apex:chart data="{!data}" height="400" width="300" colorSet="#009345">
+       <!--apex:legend position="left"/-->
+       <apex:axis type="Numeric" position="left" title="Total Number of Students" grid="true" fields="data" dashSize="2">
+
+           <apex:chartLabel />
+       </apex:axis>
+
+       <apex:axis type="Category" position="bottom" fields="label" title="Year">
+           <apex:chartLabel rotate="315"/>
+       </apex:axis>
+
+    <apex:barSeries orientation="vertical" axis="left" stacked="true" xField="label" yField="data" colorsProgressWithinSeries="true"/>
+
+   </apex:chart>     
+    <!--/apex:pageblock-->
+    </div>
+    </body>
+    </html>
+</apex:page>

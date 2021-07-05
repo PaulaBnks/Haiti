@@ -1,0 +1,100 @@
+<!-- public_facing_Total_students_per_academic_year.vfp -->
+
+<apex:page showHeader="false" sidebar="false"
+           controller="PFTotStudentsPerYear" title="Total Number of Students Per Academic Year"
+           lightningStylesheets="true">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="x-ua-compatible" content="ie=edge" />
+      <title>Total Students Served</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+ 
+       <!-- Import the Design System style sheet -->
+       <apex:slds />
+ 
+
+	<style>
+          .title {
+        font-weight:bold ;
+        font:15px Helvetica; 
+        color:black; 
+        text-align:center;
+        vertical-align: middle;
+        text-decoration: underline;} 
+        
+  		.widget-title {
+       		font-size: 50px;
+       		line-height: 46px;
+       		font-family: Roboto, sans-serif;
+       		font-weight: 400;
+       		margin-bottom: 24px;
+       		display: block;
+       		box-sizing: border-box;
+       		color: #FFFFFF
+    	}
+    
+		.widget-text {
+       		font-size: 17px;
+       		line-height: 26px;
+       		font-family: Roboto, sans-serif;
+    	}
+        .title_text {
+           font-size: 20px;
+       		line-height: 26px;
+       		font-family: Roboto, sans-serif;
+            text-align: left;
+            padding:20px;
+        }
+        
+        /* Color for the title bar */
+        
+       .apexp  .bPageBlock .pbBody .pbFooter .brandSecondaryBrd .apexDefaultPageBlock .secondaryPalette
+        {
+            /* Color for the pageblock background */
+            background-color:#FFFFFF;
+        }
+    </style>      
+    </head>
+    <body style="background-color:#FFFFFF">
+
+        <apex:pageBlock mode="maindetail" >
+           <apex:pageBlockSection collapsible="false" columns="3" >
+                <apex:pageBlockSectionItem >
+                   <apex:dataTable value="{!pieData.pie}" var="st" id="theTable"  footerClass="title"
+        rowClasses="odd,even"  styleClass="slds-table slds-table--bordered " border="4"  align="right" cellpadding="8" columnClasses="slds-cell-wrap" columnsWidth="100px">       
+       
+        <apex:column styleClass="col slds-cell-wrap">
+            <apex:facet name="header">School Year</apex:facet>            
+            <apex:outputText value="{!LEFT(st.name,(FIND(':', st.name) - 1))}"/>
+            <apex:facet name="footer">Total Count: &nbsp;</apex:facet>
+        </apex:column>
+        <apex:column styleClass="col slds-cell-wrap">
+            <apex:facet name="header">Count</apex:facet>            
+            <apex:outputText value="{!st.data}"/>
+            <apex:facet name="footer" >{!pieData.total}</apex:facet>
+        </apex:column>
+ 
+     </apex:dataTable>   
+   </apex:pageBlockSectionItem>
+    <apex:pageBlockSectionItem labelStyle="align:center">           
+      <apex:chart height="400" width="400" data="{!pieData.pie}" colorSet="#405395, #F16522, #2AA65D">
+        <apex:pieSeries dataField="data" labelField="name" donut="50" tips="false" >
+            <apex:chartLabel display="middle" orientation="vertical" rotate="-25" font="bold 10px Helvetica" color="#FFFFFF"/>
+         </apex:pieSeries>
+        
+      </apex:chart>
+   </apex:pageBlockSectionItem>
+   <apex:pageBlockSectionItem labelStyle="align:center">           
+
+   </apex:pageBlockSectionItem>     
+
+  </apex:pageBlockSection>
+ </apex:pageBlock>  
+     
+
+
+        
+    </body>
+  </html>
+</apex:page>
