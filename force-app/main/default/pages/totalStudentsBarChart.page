@@ -30,18 +30,18 @@
      <!--apex:pageblock title="Fundraising For The Residential School - Phase One" -->
      <div>
       <div class="title"> <h2>Total Number of Students Infographic Chart</h2> </div>
-       <apex:chart data="{!data}" height="400" width="300" colorSet="#009345">
+       <apex:chart data="{!data}" height="500" width="200" colorSet="#009345">
        <!--apex:legend position="left"/-->
        <apex:axis type="Numeric" position="left" title="Total Number of Students" grid="true" fields="data" dashSize="2">
 
            <apex:chartLabel />
        </apex:axis>
 
-       <apex:axis type="Category" position="bottom" fields="label" title="Year">
+       <apex:axis type="Category" position="bottom" fields="name" title="Students" >
            <apex:chartLabel rotate="315"/>
        </apex:axis>
 
-    <apex:barSeries orientation="vertical" axis="left" stacked="true" xField="label" yField="data" colorsProgressWithinSeries="true"/>
+    <apex:barSeries orientation="vertical" axis="left" stacked="true" xField="name" yField="data" colorsProgressWithinSeries="true"/>
 
    </apex:chart>     
     <!--/apex:pageblock-->

@@ -1,4 +1,4 @@
-public with sharing class barChartController {
+public with sharing class totalStudentsPieChartController {
     public List<ChartData> getData() {
 
         Date todaysDate = System.today();
@@ -15,8 +15,12 @@ public with sharing class barChartController {
               total= total + student_count;
              
          }
-         data.add( new ChartData(toStringYr, total));
+        // data.add( new ChartData(toStringYr, total));
+         data.add(new ChartData(
+                'Total Students ' + total ,  total
+            ));
          System.debug('called getdata' );
+
          return data;
          
      }
