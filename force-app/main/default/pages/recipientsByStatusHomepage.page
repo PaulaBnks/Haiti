@@ -22,7 +22,7 @@
     	}
     </style><br/>
 	
-    <apex:chart height="300" width="330" data="{!pieData}" colorSet="#e5763e, #405395">
+    <apex:chart height="300" width="330" data="{!pieData}" colorSet="#405395, #009345">
         <apex:pieSeries dataField="data" labelField="name">
             <apex:chartLabel display="middle" orientation="vertical" font="bold 14px Helvetica" color="#FFFFFF"/>
             <apex:chartTips height="20" width="140"/>

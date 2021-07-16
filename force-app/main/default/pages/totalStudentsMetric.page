@@ -1,0 +1,36 @@
+<apex:page showHeader="false" sidebar="false" controller="totalMetricController" title="Total Number of Students" lightningStylesheets="true">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>Total Number of Students Infographic Chart </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+   
+         <!-- Import the Design System style sheet -->
+         <apex:slds />
+          <style>
+          
+          .title {
+           font-size: 20px;
+           font-weight: 500;
+           margin-left: 10%;
+           padding: 20px;
+          }
+          </style>
+         
+          </head>
+          <body>
+   <apex:pageBlock>
+       <apex:pageBlockSection>
+   <apex:pageBlockSectionItem labelStyle="align:center">   
+      
+       <apex:outputText value="Total Recipients: {!totalStudents} "  style="white-space: pre;font-size:24px; font-weight: 500" ></apex:outputText>    
+       
+             
+   </apex:pageBlockSectionItem>  
+   
+      
+    </apex:pageBlockSection>
+ </apex:pageBlock>  
+     
+          </body>
+</apex:page>

@@ -1,0 +1,51 @@
+<apex:page controller="HaitiController2" showHeader="false" docType="html-5.0">
+
+ <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="x-ua-compatible" content="ie=edge" />
+      <title>Residential School Expenditure Infographic Chart </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+ 
+       <!-- Import the Design System style sheet -->
+       <apex:slds />
+        <style>
+         body {
+        background: #fff;
+        }
+        div {
+        background: #fff;
+        margin-left: 10%;
+        }
+        .title {
+         font-size: 20px;
+         font-weight: 500;
+         margin-left: 10%;
+         padding: 20px;
+        }
+        </style>
+       
+        </head>
+        <body>
+     
+     <!--apex:pageblock title="Fundraising For The Residential School - Phase One" -->
+     <div>
+      <div class="title"> <h2>Fundraising For The Residential School - Phase One</h2> </div>
+       <apex:chart data="{!pieData}" height="400" width="500" colorSet="{!colors}">
+       <!--apex:legend position="left"/-->
+       <apex:axis type="Numeric" position="left" title="Amount" grid="true" fields="data" dashSize="2">
+
+           <apex:chartLabel />
+       </apex:axis>
+
+       <apex:axis type="Category" position="bottom" fields="name">  <apex:chartLabel rotate="315"/>
+       </apex:axis>
+
+    <apex:barSeries orientation="vertical" axis="left" stacked="true" xField="name" yField="data" colorsProgressWithinSeries="true"/>
+
+   </apex:chart>     
+    <!--/apex:pageblock-->
+    </div>
+    </body>
+    </html>
+</apex:page>

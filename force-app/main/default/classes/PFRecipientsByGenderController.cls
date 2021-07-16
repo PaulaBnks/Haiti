@@ -24,9 +24,9 @@ public with sharing class PFRecipientsByGenderController {
             }
             pctMale = ((Decimal)males/brList.size()) * 100;
             pctFemale = ((Decimal)females/brList.size()) * 100;
-            // data.add(new PieWedgeData(
-            //     'Male ' + Math.round(pctMale) + '% ', males
-            // ));
+            data.add(new PieWedgeData(
+                'Male ' + Math.round(pctMale) + '% ', males
+            ));
             data.add(new PieWedgeData(
                 'Female ' + Math.round(pctFemale) + '% ',  females
             ));

@@ -23,16 +23,14 @@ public with sharing class PFRecipientsByStatusController {
                 }
             }
             pctPitit = ((Decimal)pitit/sList.size()) * 100;
-           // pctTimoun = ((Decimal)timoun/sList.size()) * 100;
             pctTimoun = ((Decimal)timoun/sList.size()) * 100;
-            
-            // data.add(new PieWedgeData(
-            //     'Non-Restavek ' + Math.round(pctPitit) + '% ',  pitit
-            // ));
+            pctTimoun = ((Decimal)timoun/sList.size()) * 100;
+             
             data.add(new PieWedgeData(
-                //'Restavek ' +  timoun, timoun
+                'Non-Restavek ' + Math.round(pctPitit) + '% ',  pitit
+            ));
+            data.add(new PieWedgeData(
                 'Restavek ' + Math.round(pctTimoun) + '% ', timoun
-                
             ));
             return data;
         } else {
