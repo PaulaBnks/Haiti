@@ -2,26 +2,17 @@
            controller="PFRecipientsByGenderController" title="Students by Gender">
     <apex:stylesheet value="https://fonts.googleapis.com/css?family=Roboto"/>
     <style>
-        .widget-title {
-            font-size: 50px;
-            line-height: 46px;
-            font-family: Roboto, sans-serif;
-            font-weight: 400;
-            margin-bottom: 24px;
-            display: block;
-            box-sizing: border-box;
-            color: #FFFFFF;
-        }
-    
-        .widget-text {
-            font-size: 17px;
-            line-height: 26px;
-            font-family: Roboto, sans-serif;
-        }
+        .box{
+           height: 10cm;
+           
+            background-color: rgb(184, 140, 140);
+         
+			width: 10cm;
+          }
             
     </style>
-    <br/>
-  
+   
+    <div class=" box">
     <apex:chart height="300" width="330" data="{!pieData}" colorSet="#405395, #009345">
         <apex:pieSeries dataField="data" labelField="name">
             <apex:chartLabel display="middle" orientation="vertical" font="bold 14px Helvetica" color="#FFFFFF"/>
@@ -29,4 +20,5 @@
         </apex:pieSeries>
         
     </apex:chart>
+    </div>
 </apex:page>

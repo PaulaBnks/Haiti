@@ -25,10 +25,10 @@ public with sharing class PFRecipientsByGenderController {
             pctMale = ((Decimal)males/brList.size()) * 100;
             pctFemale = ((Decimal)females/brList.size()) * 100;
             data.add(new PieWedgeData(
-                'Male ' + Math.round(pctMale) + '% ', males
+                'Male ' + Math.round(pctMale) + '% '
             ));
             data.add(new PieWedgeData(
-                'Female ' + Math.round(pctFemale) + '% ',  females
+                'Female ' + Math.round(pctFemale) + '% '
             ));
             
             return data;
@@ -39,10 +39,10 @@ public with sharing class PFRecipientsByGenderController {
     }
     public class PieWedgeData {
         public String name {get; set;}
-        public Integer data {get; set;}
+        //public Integer data {get; set;}
         public PieWedgeData(String name, Integer data) {
             this.name = name;
-            this.data = data;
+           // this.data = data;
         }
     }
 

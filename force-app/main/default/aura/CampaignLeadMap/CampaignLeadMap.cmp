@@ -1,0 +1,20 @@
+<aura:component   implements="flexipage:availableForAllPageTypes"  access="global" controller="CampaignLeadMapController">
+    
+ 	<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>  
+    <aura:attribute name="map" type="Object"/>
+    <aura:attribute name="markers" type="Object"/>
+     
+    <ltng:require styles="{!$Resource.leaflet + '/leaflet.css'}" />
+    <ltng:require styles="{!$Resource.leafletMarkerCluster + '/leafletMarerClusterDefault.css'}" />
+    <ltng:require styles="{!$Resource.leafletMarkerCluster + '/leafletMarerCluster.css'}" />   
+	<ltng:require scripts="{!join(',',$Resource.leaflet + '/leaflet.js', $Resource.leafletMarkerCluster + '/leafletMarerCluster.js')}" afterScriptsLoaded="{!c.jsLoaded}" /> 
+
+	<aura:attribute name="pins" type="List" default="[]"/>
+    <aura:attribute name="CampaignLeadCount" type="String" default=""/>
+	<aura:attribute name="singlePin" type="Object" default="{}"/>
+    
+    <div class="map" id="map" ></div>
+    <div style="font-size:20px; text-align:center; " id="CampaignLeadCount" >{!v.CampaignLeadCount} <br/></div>
+            
+       
+</aura:component>

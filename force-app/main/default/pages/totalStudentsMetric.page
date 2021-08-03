@@ -15,22 +15,26 @@
            margin-left: 10%;
            padding: 20px;
           }
+          .label{
+            white-space: pre;
+            font-size:24px; 
+            font-weight: 500;
+            background-color: lightgrey;
+            width: 200px;
+            border: 15px lightgrey;
+            padding: 50px;
+            margin: 20px;
+          }
           </style>
          
           </head>
           <body>
-   <apex:pageBlock>
-       <apex:pageBlockSection>
-   <apex:pageBlockSectionItem labelStyle="align:center">   
-      
-       <apex:outputText value="Total Recipients: {!totalStudents} "  style="white-space: pre;font-size:24px; font-weight: 500" ></apex:outputText>    
-       
-             
-   </apex:pageBlockSectionItem>  
    
       
-    </apex:pageBlockSection>
- </apex:pageBlock>  
+         <apex:outputText value="Total Recipients: {!totalStudents} "  styleClass="label" ></apex:outputText>    
+       
+             
+   
      
           </body>
 </apex:page>
