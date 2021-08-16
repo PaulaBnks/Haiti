@@ -1,5 +1,36 @@
 <template>
-    <div class="slds-p-around_medium lgc-bg">
-        <lightning-input type="text" label="Enter some text" placeholder="type here..."></lightning-input>
-    </div>
+    <lightning-card class="slds-var-p-around_medium text" >
+       
+        <h1><p class="header"><lightning-formatted-text value="Campaign Lead Map" ></lightning-formatted-text></p></h1>
+        <div class="slds-p-around_medium lgc-bg">
+            Search Map
+            <lightning-helptext content="Currently you can only search by City"></lightning-helptext>
+        </div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_4-of-6 slds-var-m-bottom_large ">
+               
+           <h2><lightning-input class="search" type="text" data-name="input" placeholder="Enter search term..." onchange={handleInput}></lightning-input></h2>
+           
+            </div>
+            <div class="slds-col slds-size_1-of-6 slds-p-top_xx-small " >    
+                <lightning-button  label=" Search " onclick={handleSearch} variant="brand" ></lightning-button>
+        </div>
+        <div class="slds-col slds-size_1-of-6 " > </div>
+        </div>
+        <div class="map">
+            <template if:true={mapMarkers}>                                     
+                    <lightning-map   
+                        map-markers={mapMarkers}
+                        markers-title="Lead Distribution"
+                        zoom-level={zoomLevel}
+                        onmarkerselect={handleMarkerSelect}
+                        selected-marker-value={selectedMarkerValue}
+                        list-view={listView}>
+                        </lightning-map>     
+                        <p><lightning-formatted-text value={totalLeads} class="text"></lightning-formatted-text></p>
+            </template>
+        </div> 
+    </lightning-card>
+   
+   
 </template>

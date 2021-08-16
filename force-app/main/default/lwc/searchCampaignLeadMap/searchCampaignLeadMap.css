@@ -1,0 +1,29 @@
+
+.search{
+    padding-left: 1cm;
+    padding-right: 1cm;
+    font-family: Helvetica;
+    font-size: 14px;
+}
+.button{
+    margin-top: 0.2cm;   
+}
+.map{
+    padding-left: 0.5cm;
+    
+}
+.text{
+    padding-left: 5cm;
+    padding-top: 1cm;
+    font-family: Helvetica;
+    font-size: 16px;
+    
+}
+h1{
+    font-weight: bolder;
+        font-size: 20px;
+}
+.header{
+    margin-left: 8cm;
+    padding-bottom: 0.5cm;
+}

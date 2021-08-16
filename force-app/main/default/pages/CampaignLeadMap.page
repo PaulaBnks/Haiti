@@ -1,0 +1,41 @@
+<apex:page showHeader="false" standardStylesheets="false">
+
+  <apex:includeLightning />
+  	<apex:slds />   
+      <div id="searchMaps" style="width:700px; height:200px" ></div>
+    	<div style="width:900px; height:700px" id="lightningLocator"></div>
+ 		<div style="height:6rem;" id="MapPin">
+ 		<div role="status" class="slds-spinner slds-spinner_medium" >
+            <span class="slds-assistive-text">Loading...</span>
+            <div class="slds-spinner__dot-a" id="dota"/>
+            <div class="slds-spinner__dot-b" id="dotb"/>
+ 		</div>
+ 		</div>
+
+        <script>
+            $Lightning.use("c:CampaignLeadMapApp", function () {
+                $Lightning.createComponent(
+                    "c:searchCampaignLeadMap",
+                    { },
+                    "searchMaps",
+                    function (cmp) {
+                    console.log("Search Component added in VF page");
+                    }
+                );
+                });
+
+            $Lightning.use("c:CampaignLeadMapApp",  
+                function() {                 
+                    $Lightning.createComponent(
+                        "c:CampaignLeadMap", 
+                        { },                  
+                        "lightningLocator",  
+                        function(cmp) {
+                        	document.getElementById("MapPin").style.display = 'none';
+                        }
+                    )
+                }  
+            );
+        </script>
+    
+</apex:page>

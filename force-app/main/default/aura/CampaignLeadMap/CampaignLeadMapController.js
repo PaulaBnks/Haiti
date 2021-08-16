@@ -22,7 +22,21 @@
         // Send action off to be executed
         $A.enqueueAction(action);
     },
-    
+
+    handleMessage: function (component, message) {
+      
+
+        if (message && message.getParam('searchTerm')) {
+            // Retrieve LMS message parameter
+            var searchResults = message.getParam('searchTerm');
+            console.log('Aura received search results '+ JSON.stringify(searchResults));
+            
+        } else {
+            console.log('no data');
+        }
+    },
+
+
     jsLoaded : function(component, event, helper) {
         function onMarkerClick(e){             
             component.set('v.singlePin',{});  //resets to {}

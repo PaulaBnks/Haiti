@@ -4,6 +4,12 @@
     <aura:attribute name="map" type="Object"/>
     <aura:attribute name="markers" type="Object"/>
      
+    <lightning:messageChannel 
+    type="Search_Message__c"
+    aura:id="searchTerm"
+    onMessage="{!c.handleMessage}"
+/>
+
     <ltng:require styles="{!$Resource.leaflet + '/leaflet.css'}" />
     <ltng:require styles="{!$Resource.leafletMarkerCluster + '/leafletMarerClusterDefault.css'}" />
     <ltng:require styles="{!$Resource.leafletMarkerCluster + '/leafletMarerCluster.css'}" />   
