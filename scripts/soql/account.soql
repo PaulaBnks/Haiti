@@ -3,4 +3,4 @@
 //     query text and running the command:
 //     SFDX: Execute SOQL Query with Currently Selected Text
 
-SELECT Id, Name FROM Account
+SELECT Id, Name, Email,MobilePhone, Company, City, Longitude__c, Latitude__c from Lead WHERE Id IN (SELECT LeadId FROM CampaignMember WHERE Campaign.name = 'Plan NGO Facilities Haiti')

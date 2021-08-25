@@ -1,0 +1,3 @@
+SELECT LeadId, Name
+  FROM CampaignMember
+  WHERE CampaignId = '7014C000000ApuxQAC' OR CampaignId = '7014C000000Apv2QAC'

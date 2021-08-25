@@ -1,6 +1,6 @@
 <apex:page showHeader="true" sidebar="true">
   <apex:includeLightning />
-  <div id="searchMapComp" style="width:900px; height:700px" />
+  <div id="searchMapComp"  />
   <script>
     
     

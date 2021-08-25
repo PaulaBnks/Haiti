@@ -14,24 +14,36 @@ public class  CampaignLeadMapController {
     public static List<Lead> getCampaignLead(){           
  
        List<Lead> campaignLead = new List<Lead>();
-       return campaignLead = [SELECT Id, Name, Company, City, Longitude__c, Latitude__c from Lead WHERE Id IN (SELECT LeadId FROM CampaignMember WHERE LeadId != Null)];
+       return campaignLead = [SELECT Id, Name, Email,MobilePhone, Company, City, Longitude__c, Latitude__c from Lead WHERE Id IN (SELECT LeadId FROM CampaignMember WHERE Campaign.name IN ('Plan NGO Facilities Haiti', 'Batch 6 : NGOs-officially-registered-in-Haiti', '2011apr13_ctc-list-haiti Address-2', 'Plan Education Cluster batch-1'))];
     }
 
     @AuraEnabled(cacheable=true)
     public static List<Lead> searchLeads(String searchTerm){
-        String find = searchTerm;
-        String msg = 'Success';
+       
         
         List<Lead> results = new List<Lead>();
 
         try{
             List<Lead> leadsList = CampaignLeadMapController.getCampaignLead();
+            System.debug('Leadlist '+ leadsList.size());
         
             for(Lead l : leadsList){
-                String city = l.City;
-                if(city.containsIgnoreCase(searchTerm)){
-                    results.add(l);
+                if(l.City != null){
+                    String city = l.City;
+                    if(city.containsIgnoreCase(searchTerm)){
+                        results.add(l);
+                        System.debug('Found city ' + searchTerm);
+                    }
                 }
+               if(l.Company != null){
+                    String employer = l.Company;
+                    if(employer.containsIgnoreCase(searchTerm))
+                    {
+                        results.add(l);
+                        System.debug('Found company ' + searchTerm);
+                    }
+               }
+                 
             }
          }
         catch(Exception e){

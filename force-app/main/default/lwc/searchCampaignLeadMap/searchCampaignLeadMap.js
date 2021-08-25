@@ -65,6 +65,20 @@ export default class SearchCampaignLeadMap extends LightningElement {
             pLead.longitude = element.Longitude__c;
             pLead.name = element.Name;
             pLead.company = element.Company;
+            pLead.city = element.City;
+            if(element.MobilePhone){
+                pLead.mobile = element.MobilePhone;
+            }
+            else{
+                pLead.mobile = 'Unavailable';
+            }
+            if(element.Email){
+                pLead.email = element.email;
+            }
+            else{
+                pLead.email = 'Unavailable';
+            }
+            
 
             prepLead.push(pLead);
         });
@@ -80,8 +94,8 @@ export default class SearchCampaignLeadMap extends LightningElement {
                             Latitude: mapItem.latitude,
                             Longitude: mapItem.longitude
                         },
-                        title: mapItem.name,
-                        description: '<b>Company: </b> ' + mapItem.company 
+                        title: 'Volunteer: '+ mapItem.name,
+                        description: '<b>Company: </b> ' + mapItem.company + '<br/><b> City: </b>' + mapItem.city +'<br/><b> Mobile: </b>' + mapItem.mobile + '<br/> <b> Email: </b> ' + mapItem.email
                     }
                 });
             }
