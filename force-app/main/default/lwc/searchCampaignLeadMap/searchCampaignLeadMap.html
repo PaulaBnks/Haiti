@@ -6,21 +6,49 @@
             Search Map
             <lightning-helptext content="You can search by City or Company"></lightning-helptext>
         </div>
-        <div class="slds-grid slds-grid_vertical">
-            <div class="slds-col slds-size_4-of-12">
+
+        <div class="slds-grid  slds-wrap">
+            <div class="slds-col slds-size_4-of-12 slds-p-bottom_medium" >
         
                 <h2>
                     <lightning-input class="search" type="text" data-name="input" placeholder="Enter search term..." onchange={handleInput}></lightning-input></h2>
           
             </div>
-            <div class="slds-col slds-p-left_large slds-p-top_x-large slds-p-right_large  ">
+            
+            
+
+            <div class="slds-col slds-size_4-of-12 ">
           
-                <lightning-button class=" slds-col slds-p-left_xx-large slds-p-top_x-large slds-p-right_large " label=" Search " onclick={handleSearch} variant="brand" ></lightning-button>
-                <lightning-button label=" Reset " onclick={handleReset} variant="brand" ></lightning-button>
+                <lightning-combobox
+                    class="search"
+                    name="departments"
+                    value={value}
+                    placeholder="Select Department"
+                    options={options}
+                    onchange={handleDept} >
+                </lightning-combobox>
+
+            
          
             </div>
-           
+            <div class="slds-col slds-size_4-of-12 ">
+                <lightning-combobox
+                    class="search"
+                    name="domain"
+                    value={domvalue}
+                    placeholder="Select Domain"
+                    options={dOptions}
+                    onchange={handleDomain} >
+                </lightning-combobox>
+                
             </div>
+            <div class="slds-col slds-size_4-of-12 slds-col slds-p-left_xx-large  slds-p-right_xx-large     ">
+                <lightning-button class=" slds-col slds-p-left_xx-large slds-p-around_small slds-p-right_small " label=" Search " onclick={handleSearch} variant="brand" ></lightning-button>
+                <lightning-button class="slds-p-left_x-large" label=" Reset " onclick={handleReset} variant="brand" ></lightning-button>
+         
+            </div>
+            </div>
+
         
         <div class="map">
             <template if:true={mapMarkers}>                                     

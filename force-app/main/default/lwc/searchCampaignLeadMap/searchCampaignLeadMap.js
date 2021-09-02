@@ -1,7 +1,11 @@
 import { LightningElement, wire, track } from 'lwc';
 import searchLeads from '@salesforce/apex/CampaignLeadMapController.searchLeads';
 import getCampaignLead from '@salesforce/apex/CampaignLeadMapController.getCampaignLead';
+import filterDepts from '@salesforce/apex/CampaignLeadMapController.filterDepts';
+import filterDomains from '@salesforce/apex/CampaignLeadMapController.filterDomains';
+import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 
+import DOMAINS from '@salesforce/schema/Lead.Domain_Types__c';
 
 
 
@@ -18,8 +22,84 @@ export default class SearchCampaignLeadMap extends LightningElement {
     listview = 'visible' ;
     selectedMarkerValue = '';
     totalLeads;
+    value = '';
+    domvalue = '';
+    dOptions;
+    error;
+    domOptions;
+    filtered;
+    domainResults;
+    deptResults;
+    
+    
+
+    @wire(getPicklistValues, { fieldApiName: DOMAINS, recordTypeId:'012000000000000AAA', })
+    domains({error, data}){
+        
+        if(data){
+            let vals = [];
+            let pOptions = data;
+            error = undefined;
+            
+            pOptions.values.forEach((element) => {
+               
+                vals.push({label:element.value, value: element.value});
+            })
+            this.dOptions = vals;
+            console.log('elements after wire processing' + JSON.stringify(this.dOptions));
+        }
+        else if(error){
+            this.error = error;
+            this.dOptions = undefined;
+            console.log('error ' + JSON.stringify(this.error));
+        }
+    }
 
     
+    get options() {
+        return [
+            { label: 'Artibonite', value: 'artibonite' },
+            { label: 'Centre', value: 'centre' },
+            { label: 'Grand\'Anse', value: 'anse' },
+            { label: 'Nippes', value: 'nippes' },
+            { label: 'Nord', value: 'nord' },
+            { label: 'Nord-Est', value: 'nord-Est' },
+            { label: 'Nord-Ouest', value: 'nord-Ouest' },
+            { label: 'Ouest', value: 'ouest' },
+            { label: 'Sud-Est', value: 'sud-Est' },
+            { label: 'Sud', value: 'sud' },
+        ];
+    }
+    handleDept(event){
+        let origin = 'depts';
+        this.value = event.detail.value;
+        console.log('selected dept ' + this.value);
+        filterDepts({category: this.value})
+        .then((result) => {
+            console.log('dept results ' + JSON.stringify(result));
+            this.deptResults = result;
+            this.mapLeads(origin);
+        })
+        .catch((error) =>{
+            console.log('Error in filtering '+ error);
+        });
+    }
+
+   
+    handleDomain(event){
+        let origin = 'domains';
+        this.domvalue = event.detail.value;
+        console.log('selected domain ' + this.domvalue);
+        filterDomains({category: this.domvalue})
+        .then((result) => {
+            console.log('domain results ' + JSON.stringify(result));
+            this.domainResults = result;
+            this.mapLeads(origin);
+        })
+        .catch((error) =>{
+            console.log('Error in filtering '+ error);
+        });
+    }
 
     @wire(getCampaignLead)
     wiredLeads({error, data}){
@@ -47,6 +127,7 @@ export default class SearchCampaignLeadMap extends LightningElement {
         
         let markers;
         let prepLead = [];
+        
 
         if(datasource == 'wire')
         {
@@ -56,6 +137,13 @@ export default class SearchCampaignLeadMap extends LightningElement {
         else if(datasource == 'search'){
             this.haitiLeads = this.searchResults;
             this.totalLeads = 'Campaign Leads: '+ this.haitiLeads.length;
+        }
+        else if(datasource == 'depts')
+        {
+            if(this.domainResults)
+            {
+                
+            }
         }
 
         console.log('Mapping ' + JSON.stringify(this.haitiLeads));
