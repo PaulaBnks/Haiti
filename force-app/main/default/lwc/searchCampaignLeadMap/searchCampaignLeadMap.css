@@ -6,10 +6,12 @@
     font-size: 14px;
 }
 .button{
-    margin-top: 0.2cm;   
+
+    padding-left: 3cm;
 }
 .map{
     padding-left: 0.5cm;
+    margin-top: 1cm;
     
 }
 .text{

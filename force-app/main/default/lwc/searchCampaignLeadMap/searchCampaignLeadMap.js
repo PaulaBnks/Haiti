@@ -14,7 +14,7 @@ export default class SearchCampaignLeadMap extends LightningElement {
     error;
     mapVisible = false;
     @track mapMarkers;
-    zoomLevel = 7;
+    zoomLevel = 9;
     listview = 'visible' ;
     selectedMarkerValue = '';
     totalLeads;
@@ -106,7 +106,10 @@ export default class SearchCampaignLeadMap extends LightningElement {
             console.log('Map error ' + JSON.stringify(error));
         }
     }
-
+    handleReset(){
+        this.mapMarkers = [];
+        this.mapLeads('wire');
+    }
     handleInput(e){
         this.searchTerm = e.detail.value;
         console.log('Received ' + this.searchTerm);
