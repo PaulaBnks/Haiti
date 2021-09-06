@@ -6,6 +6,7 @@ import filterDomains from '@salesforce/apex/CampaignLeadMapController.filterDoma
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 
 import DOMAINS from '@salesforce/schema/Lead.Domain_Types__c';
+import TickerSymbol from '@salesforce/schema/Account.TickerSymbol';
 
 
 
@@ -33,6 +34,7 @@ export default class SearchCampaignLeadMap extends LightningElement {
     processArray;
     dom = false; 
     dep = false;
+    resultset = [];
     
     
 
@@ -78,6 +80,7 @@ export default class SearchCampaignLeadMap extends LightningElement {
     }
     handleDept(event){
         let origin = 'depts';
+        this.deptResults = [];
         this.value = event.detail.value;
         if(this.value != 'none'){
             console.log('selected dept ' + this.value);
@@ -97,6 +100,7 @@ export default class SearchCampaignLeadMap extends LightningElement {
    
     handleDomain(event){
         let origin = 'domains';
+        this.domainResults = [];
         this.domvalue = event.detail.value;
         if(this.domvalue != 'none'){
             console.log('selected domain ' + this.domvalue);
@@ -147,30 +151,37 @@ export default class SearchCampaignLeadMap extends LightningElement {
             this.totalLeads = 'Campaign Leads: '+ this.haitiLeads.length;
         }
         else if(datasource == 'search'){
+            prepLead = [];
+            this.haitiLeads = [];
             this.haitiLeads = this.searchResults;
             this.totalLeads = 'Campaign Leads: '+ this.haitiLeads.length;
         }
         else if(datasource == 'depts')
         {   
-
+            prepLead = [];
            if(this.domainResults){
+            
                this.processArray = this.haitiLeads;
                this.haitiLeads = this.deptResults;
                this.dom = true;
            }
            else{
+               
                this.haitiLeads = this.deptResults;
            }
            
         }
         else if(datasource == 'domains')
         {
+            prepLead = [];
             if(this.deptResults){
+              
                 this.processArray = this.haitiLeads;
                 this.haitiLeads = this.domainResults;
                 this.dep = true;
             }
             else{
+                
                 this.haitiLeads = this.domainResults;
             }
         }
@@ -196,44 +207,61 @@ export default class SearchCampaignLeadMap extends LightningElement {
                 pLead.email = 'Unavailable';
             }
             if(pLead.latitude && pLead.longitude){
+              
                 prepLead.push(pLead);
             }
         });
 
         //console.log('Processed data ' + JSON.stringify( prepLead));
          
-       let resultset = [];
+       
         if(this.dom == true){
            console.log('dom Process array '+ this.processArray.length);
             
-            resultset.add(this.processArray);
-            console.log('resultset after domain Process array '+ JSON.stringify(resultset));
-            resultset.add(prepLead);
-            console.log('Resultset after Preplead with dept ' + JSON.stringify(resultset));
-            this.haitiLeads = Array.from(resultset);
+           this.processArray.forEach((element) => {
+            //console.log('process array element '+ JSON.stringify(element));
+            this.resultset.push(element);
+            });
+
+            console.log('resultset with domain Process array '+ this.resultset.length);
+            prepLead.forEach((element) => {
+                this.resultset.push(element);
+                //console.log('resultset Preplead with domains ' + JSON.stringify(resultset));
+            });
+            console.log('final resultset ' + this.resultset.length);
+            this.haitiLeads = this.resultset;
+            
             this.dom = false;
             this.processArray = [];
+            this.resultset = [];
         }
-        if(this.dep == true){
+        else if(this.dom == false && this.dep == false){
+            
+            this.haitiLeads = prepLead;
+            
+        }
+        else if(this.dep == true){
             console.log('dom Process array '+ this.processArray.length);
             this.processArray.forEach((element) => {
                 //console.log('process array element '+ JSON.stringify(element));
-                resultset.push(element);
+                this.resultset.push(element);
             });            
         
            
-            console.log('resultset with dept Process array '+ resultset.length);
+            console.log('resultset with dept Process array '+ this.resultset.length);
             prepLead.forEach((element) => {
-                resultset.push(element);
+                this.resultset.push(element);
                 //console.log('resultset Preplead with domains ' + JSON.stringify(resultset));
             });
-            console.log('final resultset ' + resultset.length);
-            this.haitiLeads = resultset;
+          
+            console.log('final resultset ' + this.resultset.length);
+            this.haitiLeads = this.resultset;
             this.dep = false; 
             this.processArray = [];
+            this.resultset = [];
         }
-
-        this.haitiLeads = prepLead;
+       
+        
         try{
             if(this.haitiLeads != undefined){
                 markers = this.haitiLeads.map(mapItem => {
@@ -256,6 +284,16 @@ export default class SearchCampaignLeadMap extends LightningElement {
     }
     handleReset(){
         this.mapMarkers = [];
+        this.resultset = [];
+        this.processArray = [];
+        this.haitiLeads = [];
+        
+        this.dep = false;
+        this.dom = false;
+        console.log('resultset ' + this.resultset.length);
+        console.log('process array ' + this.processArray.length);
+        console.log('haitileads '+ this.haitiLeads.length);
+        //location.reload();
         this.mapLeads('wire');
         const combo = this.template.querySelector('.combo');
         const combo2 = this.template.querySelector('.combo2');
