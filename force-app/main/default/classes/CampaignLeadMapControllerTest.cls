@@ -27,6 +27,8 @@ public class CampaignLeadMapControllerTest {
         l.City = 'Port';
         l.MobilePhone = '5876678';
         l.Email = 'test@test.com';
+        l.Department__c = 'Nord-Est';
+        l.Domain_Types__c = 'Agriculture';
         insert l;
 
         Lead l2 = new Lead();
@@ -78,9 +80,17 @@ public class CampaignLeadMapControllerTest {
     static void getCampaignLeadTest() {
         String term = 'Haiti Now';
         String termMiss = 'testcity';
+        String dept = 'Nord-Est';
+        String domain = 'Agriculture';
+        Map<String,String> combval = new Map<String,String>();
+        combval.put('Nord-Est', 'Agriculture');
+
        
-        List<CampaignMember> cm = [SELECT Campaign.Name  FROM CampaignMember];
-        System.debug('cm '+ cm);
+
+        
+        //List<Lead> leadLst = [SELECT Id FROM Lead  WHERE  Domain_Types__c != null or Department__c != null ];
+       // System.debug('test size ' + leadLst.size());
+     
 
 
         Test.startTest();
@@ -88,8 +98,11 @@ public class CampaignLeadMapControllerTest {
             System.debug('size ' + lead.size());
             List<Lead> results = CampaignLeadMapController.searchLeads(term);
             
-            List<Lead> noresults = CampaignLeadMapController.searchLeads(termMiss);
-       
+            List<Lead> depresults = CampaignLeadMapController.filterDepts(dept);
+            List<Lead> domresults = CampaignLeadMapController.filterDomains(domain);
+
+            List<Lead> combresults = CampaignLeadMapController.combinedFilter(combval);
+                     
            
         	System.assertEquals(2, lead.size());
            

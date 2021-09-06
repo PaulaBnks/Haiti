@@ -4,9 +4,10 @@ import getCampaignLead from '@salesforce/apex/CampaignLeadMapController.getCampa
 import filterDepts from '@salesforce/apex/CampaignLeadMapController.filterDepts';
 import filterDomains from '@salesforce/apex/CampaignLeadMapController.filterDomains';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
+import combinedFilter from '@salesforce/apex/CampaignLeadMapController.combinedFilter';
 
 import DOMAINS from '@salesforce/schema/Lead.Domain_Types__c';
-import TickerSymbol from '@salesforce/schema/Account.TickerSymbol';
+
 
 
 
@@ -31,10 +32,11 @@ export default class SearchCampaignLeadMap extends LightningElement {
     filtered;
     domainResults;
     deptResults;
-    processArray;
+    
+    
     dom = false; 
     dep = false;
-    resultset = [];
+    
     
     
 
@@ -79,41 +81,91 @@ export default class SearchCampaignLeadMap extends LightningElement {
         ];
     }
     handleDept(event){
-        let origin = 'depts';
-        this.deptResults = [];
+        let origin = 'depts';       
         this.value = event.detail.value;
-        if(this.value != 'none'){
-            console.log('selected dept ' + this.value);
-            filterDepts({category: this.value})
+
+        let dom = this.template.querySelector('.domcombo').value;
+       
+        if(dom != 'Select Domain'){
+            let wrapper = {
+                domain: dom,
+                dept: this.value
+            };
+            combinedFilter({combinedVal: wrapper})
             .then((result) => {
-                console.log('dept results ' + JSON.stringify(result));
+                console.log('received combined results ' + JSON.stringify(result));
                 this.deptResults = result;
+                this.totalLeads = 'Campaign Leads ' + this.deptResults.length;
                 this.mapLeads(origin);
+                
+
             })
-            .catch((error) =>{
-                console.log('Error in filtering '+ error);
-            });
+            .catch((error) => {
+                console.log('error is '+ JSON.stringify(error));
+            })
         }
+        else{
+            
+                console.log('selected dept ' + this.value);
+                filterDepts({category: this.value})
+                .then((result) => {
+                    console.log('dept results ' + result.length);
+                    this.deptResults = result;
+                    this.totalLeads = 'Campaign Leads ' + this.deptResults.length;
+                    this.mapLeads(origin);
+                    
+                })
+                .catch((error) =>{
+                    console.log('Error in filtering '+ error);
+                });
+            
+        }
+       
         
     }
 
    
     handleDomain(event){
-        let origin = 'domains';
-        this.domainResults = [];
+        let origin = 'domains';        
         this.domvalue = event.detail.value;
-        if(this.domvalue != 'none'){
-            console.log('selected domain ' + this.domvalue);
-            filterDomains({category: this.domvalue})
+        
+        let dep = this.template.querySelector('.depcombo').value;
+       
+        if(dep != 'Select Department'){
+            let wrapper = {
+                domain: this.domvalue,
+                dept: dep
+            };
+            combinedFilter({combinedVal: wrapper})
             .then((result) => {
-                console.log('domain results ' + JSON.stringify(result));
+                console.log('received combined results ' + JSON.stringify(result));
                 this.domainResults = result;
+                this.totalLeads = 'Campaign Leads ' + this.domainResults.length;
                 this.mapLeads(origin);
+               
+          
             })
-            .catch((error) =>{
-                console.log('Error in filtering '+ error);
-            });
+            .catch((error) => {
+                console.log('error is '+ JSON.stringify(error));
+            })
         }
+        else{
+            
+                console.log('selected domain ' + this.domvalue);
+                filterDomains({category: this.domvalue})
+                .then((result) => {
+                    console.log('domain results ' + result.length);
+                    this.domainResults = result;
+                    this.totalLeads ='Campaign Leads ' + this.domainResults.length;
+                    this.mapLeads(origin);
+                    
+                })
+                .catch((error) =>{
+                    console.log('Error in filtering '+ error);
+                });
+            
+        }
+        
         
     }
 
@@ -158,32 +210,14 @@ export default class SearchCampaignLeadMap extends LightningElement {
         }
         else if(datasource == 'depts')
         {   
-            prepLead = [];
-           if(this.domainResults){
-            
-               this.processArray = this.haitiLeads;
-               this.haitiLeads = this.deptResults;
-               this.dom = true;
-           }
-           else{
-               
-               this.haitiLeads = this.deptResults;
-           }
+            this.haitiLeads = this.deptResults;
+            this.totalLeads = 'Campaign Leads: '+ this.haitiLeads.length;
            
         }
         else if(datasource == 'domains')
         {
-            prepLead = [];
-            if(this.deptResults){
-              
-                this.processArray = this.haitiLeads;
-                this.haitiLeads = this.domainResults;
-                this.dep = true;
-            }
-            else{
-                
-                this.haitiLeads = this.domainResults;
-            }
+            this.haitiLeads = this.domainResults;
+            this.totalLeads = 'Campaign Leads: '+ this.haitiLeads.length;
         }
 
         //console.log('Mapping ' + JSON.stringify(this.haitiLeads));
@@ -212,54 +246,9 @@ export default class SearchCampaignLeadMap extends LightningElement {
             }
         });
 
-        //console.log('Processed data ' + JSON.stringify( prepLead));
-         
-       
-        if(this.dom == true){
-           console.log('dom Process array '+ this.processArray.length);
-            
-           this.processArray.forEach((element) => {
-            //console.log('process array element '+ JSON.stringify(element));
-            this.resultset.push(element);
-            });
-
-            console.log('resultset with domain Process array '+ this.resultset.length);
-            prepLead.forEach((element) => {
-                this.resultset.push(element);
-                //console.log('resultset Preplead with domains ' + JSON.stringify(resultset));
-            });
-            console.log('final resultset ' + this.resultset.length);
-            this.haitiLeads = this.resultset;
-            
-            this.dom = false;
-            this.processArray = [];
-            this.resultset = [];
-        }
-        else if(this.dom == false && this.dep == false){
-            
+          
             this.haitiLeads = prepLead;
             
-        }
-        else if(this.dep == true){
-            console.log('dom Process array '+ this.processArray.length);
-            this.processArray.forEach((element) => {
-                //console.log('process array element '+ JSON.stringify(element));
-                this.resultset.push(element);
-            });            
-        
-           
-            console.log('resultset with dept Process array '+ this.resultset.length);
-            prepLead.forEach((element) => {
-                this.resultset.push(element);
-                //console.log('resultset Preplead with domains ' + JSON.stringify(resultset));
-            });
-          
-            console.log('final resultset ' + this.resultset.length);
-            this.haitiLeads = this.resultset;
-            this.dep = false; 
-            this.processArray = [];
-            this.resultset = [];
-        }
        
         
         try{
@@ -284,22 +273,13 @@ export default class SearchCampaignLeadMap extends LightningElement {
     }
     handleReset(){
         this.mapMarkers = [];
-        this.resultset = [];
-        this.processArray = [];
-        this.haitiLeads = [];
+       
         
-        this.dep = false;
-        this.dom = false;
-        console.log('resultset ' + this.resultset.length);
-        console.log('process array ' + this.processArray.length);
-        console.log('haitileads '+ this.haitiLeads.length);
-        //location.reload();
-        this.mapLeads('wire');
-        const combo = this.template.querySelector('.combo');
-        const combo2 = this.template.querySelector('.combo2');
+        const combo = this.template.querySelector('.depcombo');
+        const combo2 = this.template.querySelector('.domcombo');
         combo.value = 'Select Department';
         combo2.value = 'Select Domain';
-       
+        this.mapLeads('wire');
     }
     handleInput(e){
         this.searchTerm = e.detail.value;
