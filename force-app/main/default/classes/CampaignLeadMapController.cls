@@ -1,22 +1,12 @@
-/*****
-
-@ Description: This class is used for getting Campaing Releated Lead record for Campaing Lead Map 
-@ Date: 4/27/2021
-@ Author: Haiti Now (Mitesh Mangukiya modified by Pauline Wambui)
-@ Test Class: CampaignLeadMapControllerTest
-
-  
-*****/
-
 public class  CampaignLeadMapController {
     
     @AuraEnabled(cacheable=true)
     public static List<Lead> getCampaignLead(){           
  
        List<Lead> campaignLead = new List<Lead>();
-       //return campaignLead = [SELECT Id, Name, Email,MobilePhone,Domain_Types__c,Department__c, Company, City, Longitude__c, Latitude__c from Lead WHERE Id IN (SELECT LeadId FROM CampaignMember WHERE Campaign.name IN ('Plan NGO Facilities Haiti', 'Batch 6 : NGOs-officially-registered-in-Haiti', '2011apr13_ctc-list-haiti Address-2', 'Plan Education Cluster batch-1'))];
+      // return campaignLead = [SELECT Id, Name, Email,MobilePhone,Domain_Types__c,Department__c, Company, City, Longitude__c, Latitude__c from Lead WHERE Id IN (SELECT LeadId FROM CampaignMember WHERE Campaign.name IN ('Plan NGO Facilities Haiti', 'Batch 6 : NGOs-officially-registered-in-Haiti', '2011apr13_ctc-list-haiti Address-2', 'Plan Education Cluster batch-1'))];
       //this is for testing in the sandbox
-        return campaignLead = [SELECT Id, Name, Email,MobilePhone,Domain_Types__c,Department__c, Company, City, Longitude__c, Latitude__c from Lead WHERE  Domain_Types__c != null or Department__c != null];
+        return campaignLead = [SELECT Id, Name, Email,MobilePhone,Domain_Types__c,Department__c, Company, City, Longitude__c, Latitude__c from Lead WHERE  Domain_Types__c != null or Department__c != null limit 210];
     }
     @AuraEnabled(cacheable=true)
     public static List<Lead> combinedFilter(Map<String,String> combinedVal){

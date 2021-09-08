@@ -177,7 +177,7 @@ export default class SearchCampaignLeadMap extends LightningElement {
             this.wireData = data;
             this.source = 'wire';
             this.mapLeads(this.source);
-           
+           console.log('wired data ' + this.wireData.length);
            
         }
         else if(error){
@@ -220,7 +220,7 @@ export default class SearchCampaignLeadMap extends LightningElement {
             this.totalLeads = 'Campaign Leads: '+ this.haitiLeads.length;
         }
 
-        //console.log('Mapping ' + JSON.stringify(this.haitiLeads));
+        console.log('Mapping ' + this.haitiLeads.length);
         this.haitiLeads.forEach((element) =>{
             let pLead = {};
             pLead.latitude = element.Latitude__c;
@@ -265,7 +265,7 @@ export default class SearchCampaignLeadMap extends LightningElement {
                 });
             }
             this.mapMarkers = markers;
-           // console.log('Markers ' + JSON.stringify(this.mapMarkers));
+           console.log('Markers to map ' + this.mapMarkers.length);
         }
         catch(error){
             console.log('Map error ' + JSON.stringify(error));
